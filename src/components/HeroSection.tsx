@@ -1,10 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
-
 export const HeroSection = () => {
-  return (
-    <section className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+  return <section className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
@@ -49,11 +46,7 @@ export const HeroSection = () => {
 
           <div className="relative">
             <div className="relative z-10">
-              <img
-                src="/placeholder.svg"
-                alt="Estudante aprendendo online"
-                className="w-full h-auto rounded-2xl shadow-2xl"
-              />
+              <img alt="Estudante aprendendo online" className="w-full h-auto rounded-2xl shadow-2xl object-cover" src="/lovable-uploads/3d1dac2c-c5e2-4abd-87fa-1e98063dd26b.jpg" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-purple-600/20 rounded-2xl blur-3xl transform translate-x-4 translate-y-4"></div>
           </div>
@@ -63,6 +56,5 @@ export const HeroSection = () => {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
         <ArrowDown className="h-6 w-6 text-gray-400" />
       </div>
-    </section>
-  );
+    </section>;
 };
