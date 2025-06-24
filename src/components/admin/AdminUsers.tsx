@@ -11,7 +11,7 @@ interface User {
   id: string;
   email: string;
   full_name: string;
-  role: 'admin' | 'user';
+  role: string;
   created_at: string;
 }
 
@@ -50,7 +50,7 @@ export const AdminUsers = () => {
       if (error) throw error;
 
       setUsers(users.map(user => 
-        user.id === userId ? { ...user, role: newRole as 'admin' | 'user' } : user
+        user.id === userId ? { ...user, role: newRole } : user
       ));
 
       toast({

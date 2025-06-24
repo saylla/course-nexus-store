@@ -11,8 +11,9 @@ interface Product {
   description: string;
   price: number;
   image_url: string;
-  type: 'video' | 'pdf' | 'course';
+  type: string;
   category_id: string;
+  created_at: string;
   categories?: { name: string };
 }
 
@@ -164,11 +165,23 @@ export const ProductCatalog = () => {
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
-              id={Number(product.id.split('-')[0]) || 1}
-              title={product.title}
-              price={product.price}
-              image={product.image_url || "/placeholder.svg"}
-              type={product.type}
+              product={{
+                id: Number(product.id.split('-')[0]) || 1,
+                title: product.title,
+                description: product.description || '',
+                price: product.price,
+                originalPrice: undefined,
+                image: product.image_url || "/placeholder.svg",
+                type: (product.type as 'video' | 'pdf') || 'pdf',
+                rating: 4.5,
+                students: 100,
+                downloads: 50,
+                duration: '2h',
+                pages: 50,
+                category: product.categories?.name || 'Categoria',
+                instructor: 'Instrutor',
+                featured: false
+              }}
             />
           ))}
         </div>

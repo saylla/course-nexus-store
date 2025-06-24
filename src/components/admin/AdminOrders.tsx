@@ -8,13 +8,10 @@ import { supabase } from '@/integrations/supabase/client';
 interface Order {
   id: string;
   total_amount: number;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: string;
   payment_method: string;
   created_at: string;
-  profiles: {
-    full_name: string;
-    email: string;
-  };
+  user_id: string;
 }
 
 export const AdminOrders = () => {
@@ -25,13 +22,7 @@ export const AdminOrders = () => {
     const fetchOrders = async () => {
       const { data, error } = await supabase
         .from('orders')
-        .select(`
-          *,
-          profiles (
-            full_name,
-            email
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -78,8 +69,7 @@ export const AdminOrders = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Cliente</TableHead>
-                <TableHead>Email</TableHead>
+                <TableHead>ID do Pedido</TableHead>
                 <TableHead>Valor Total</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Método de Pagamento</TableHead>
@@ -90,9 +80,8 @@ export const AdminOrders = () => {
               {orders.map((order) => (
                 <TableRow key={order.id}>
                   <TableCell className="font-medium">
-                    {order.profiles?.full_name || 'N/A'}
+                    {order.id.substring(0, 8)}...
                   </TableCell>
-                  <TableCell>{order.profiles?.email || 'N/A'}</TableCell>
                   <TableCell>R$ {order.total_amount.toFixed(2)}</TableCell>
                   <TableCell>{getStatusBadge(order.status)}</TableCell>
                   <TableCell>{order.payment_method || 'N/A'}</TableCell>

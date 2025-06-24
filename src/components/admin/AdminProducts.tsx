@@ -18,8 +18,8 @@ interface Product {
   title: string;
   description: string;
   price: number;
-  type: 'pdf' | 'video' | 'course';
-  status: 'active' | 'inactive' | 'draft';
+  type: string;
+  status: string;
   is_featured: boolean;
   category_id: string;
   categories?: { name: string };
@@ -90,8 +90,8 @@ export const AdminProducts = () => {
       title: formData.get('title') as string,
       description: formData.get('description') as string,
       price: Number(formData.get('price')),
-      type: formData.get('type') as 'pdf' | 'video' | 'course',
-      status: formData.get('status') as 'active' | 'inactive' | 'draft',
+      type: formData.get('type') as string,
+      status: formData.get('status') as string,
       is_featured: formData.get('is_featured') === 'true',
       category_id: formData.get('category_id') as string,
     };
