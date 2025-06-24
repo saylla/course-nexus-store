@@ -1,15 +1,18 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, User, ShoppingCart, Menu, X } from "lucide-react";
+import { Search, User, ShoppingCart, Menu, X, Settings } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
 import { CartDrawer } from "./CartDrawer";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { items } = useCart();
+  const { user, isAdmin, signOut } = useAuth();
 
   const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -20,20 +23,22 @@ export const Navbar = () => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                EduMarket
-              </h1>
+              <Link to="/">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  EduMarket
+                </h1>
+              </Link>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">
+              <Link to="/" className="text-gray-700 hover:text-blue-600 transition-colors">
                 Início
-              </a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">
+              </Link>
+              <a href="#products" className="text-gray-700 hover:text-blue-600 transition-colors">
                 Cursos
               </a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">
+              <a href="#products" className="text-gray-700 hover:text-blue-600 transition-colors">
                 PDFs
               </a>
               <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">
@@ -55,10 +60,29 @@ export const Navbar = () => {
 
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center space-x-4">
-              <Button variant="ghost" size="sm">
-                <User className="h-4 w-4 mr-2" />
-                Entrar
-              </Button>
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  {isAdmin && (
+                    <Link to="/admin">
+                      <Button variant="ghost" size="sm">
+                        <Settings className="h-4 w-4 mr-2" />
+                        Admin
+                      </Button>
+                    </Link>
+                  )}
+                  <Button variant="ghost" size="sm" onClick={signOut}>
+                    <User className="h-4 w-4 mr-2" />
+                    Sair
+                  </Button>
+                </div>
+              ) : (
+                <Link to="/auth">
+                  <Button variant="ghost" size="sm">
+                    <User className="h-4 w-4 mr-2" />
+                    Entrar
+                  </Button>
+                </Link>
+              )}
               <Button
                 variant="outline"
                 size="sm"
@@ -112,22 +136,41 @@ export const Navbar = () => {
                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-                <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">
+                <Link to="/" className="text-gray-700 hover:text-blue-600 transition-colors">
                   Início
-                </a>
-                <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">
+                </Link>
+                <a href="#products" className="text-gray-700 hover:text-blue-600 transition-colors">
                   Cursos
                 </a>
-                <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">
+                <a href="#products" className="text-gray-700 hover:text-blue-600 transition-colors">
                   PDFs
                 </a>
                 <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">
                   Sobre
                 </a>
-                <Button variant="ghost" size="sm" className="justify-start">
-                  <User className="h-4 w-4 mr-2" />
-                  Entrar
-                </Button>
+                {user ? (
+                  <>
+                    {isAdmin && (
+                      <Link to="/admin">
+                        <Button variant="ghost" size="sm" className="justify-start">
+                          <Settings className="h-4 w-4 mr-2" />
+                          Admin
+                        </Button>
+                      </Link>
+                    )}
+                    <Button variant="ghost" size="sm" className="justify-start" onClick={signOut}>
+                      <User className="h-4 w-4 mr-2" />
+                      Sair
+                    </Button>
+                  </>
+                ) : (
+                  <Link to="/auth">
+                    <Button variant="ghost" size="sm" className="justify-start">
+                      <User className="h-4 w-4 mr-2" />
+                      Entrar
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           )}
